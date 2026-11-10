@@ -1,0 +1,723 @@
+@import "tailwindcss";
+/* color palette */
+
+/* ۱. تعریف متغیرهای تم لایت (پیش‌فرض) */
+:root {
+  --base: #ffffff;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #06b6d4;
+}
+
+/* ۲. بازنویسی متغیرها برای حالت دارک مود */
+.dark {
+  --base: #0b0f19;
+  --card: #111827;
+  --border: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --accent: #22d3ee;
+}
+
+/* ۳. نگاشت متغیرها به توکن‌های تیلویند v4 */
+@theme {
+  --color-base: var(--base);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-main: var(--text-main);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+}
+
+/* ۴. کلاس‌های آماده و اختصاصی کامپوننت‌ها */
+@layer components {
+  html {
+    background-color: var(--base);
+    color: var(--text-main);
+  }
+
+  .card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .main {
+    color: var(--text-main);
+  }
+
+  .muted {
+    color: var(--text-muted);
+  }
+
+  .primary {
+    background-color: var(--primary);
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+  }
+
+  .primary:hover {
+    background-color: var(--primary-hover);
+  }
+
+  .accent {
+    background-color: var(--accent);
+  }
+}
+
+/* add font  */
+@font-face {
+  font-family: "PeydaMedium";
+  src: url("./assets/font/peyda/Peyda-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "PeydaBold";
+  src: url("./assets/font/peyda/Peyda-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "PeydaBlack";
+  src: url("./assets/font/peyda/Peyda-Black.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SansRegular";
+  src: url("./assets/font/iranSansX/IRANSans-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SansMedium";
+  src: url("./assets/font/iranSansX/IRANSans-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SansDemiBold";
+  src: url("./assets/font/iranSansX/IRANSans-DemiBold.woff2") format("woff2");
+}
+@theme {
+  /* config color  */
+  --color-base: var(--base);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-main: var(--text-main);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+
+  /* config font  */
+  --font-PeydaMedium: "PeydaMedium";
+  --font-PeydaBold: "PeydaBold";
+  --font-PeydaBlack: "PeydaBlack";
+  --font-SansRegular: "SansRegular";
+  --font-SansMedium: "SansMedium";
+  --font-SansDemiBold: "SansDemiBold";
+}
+
+/* config custom class name */
+html {
+  background-color: var(--base);
+  color: var(--text-main);
+}
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+}
+.main {
+  color: var(--text-main);
+}
+.muted {
+  color: var(--text-muted);
+}
+.primary {
+  background-color: var(--color-primary);
+}
+.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+.container {
+  @apply max-w-375 mx-auto px-4;
+}
+.popArtSearchBar {
+  @apply absolute top-full mt-4 w-full sm:w-100 bg-base rounded-3xl shadow-2xl border border-border p-6 z-50 space-y-1.5 transform transition-all duration-300 origin-top-right;
+}
+@layer components {
+  /* هر سطر آکاردئون با یک بوردر ظریف زیرین */
+  .accordion-clean-item {
+    @apply border-b border-border/40 py-1 transition-colors duration-200;
+  }
+
+  /* دکمه هدر آکاردئون: فلش یک سمت، عنوان سمت دیگر، بدون خط زیر هاور */
+  .accordion-clean-trigger {
+    @apply flex w-full items-center justify-between py-4 text-sm font-PeydaBold text-main hover:no-underline transition-all;
+  }
+
+  /* کانتینر چیپ‌ها موقع باز شدن */
+  .accordion-clean-content {
+    @apply pb-5 pt-1 overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up;
+  }
+}
+@layer utilities {
+  /* مخفی کردن اسکرول‌بار برای کروم، سافاری و اپرا */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* مخفی کردن اسکرول‌بار برای فایرفاکس و مرورگرهای مایکروسافت */
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@theme {
+  /* =========================
+     MEKANO LOADER
+  ========================= */
+
+  --animate-mekano-roof: mekano-roof 2.8s cubic-bezier(0.65, 0, 0.35, 1)
+    infinite;
+
+  --animate-mekano-chimney: mekano-chimney 2.8s cubic-bezier(0.65, 0, 0.35, 1)
+    infinite;
+
+  --animate-mekano-bottom: mekano-bottom 2.8s cubic-bezier(0.65, 0, 0.35, 1)
+    infinite;
+
+  --animate-mekano-left: mekano-left 2.8s cubic-bezier(0.65, 0, 0.35, 1)
+    infinite;
+
+  --animate-mekano-pin: mekano-pin 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  --animate-mekano-key: mekano-key 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  --animate-mekano-glow: mekano-glow 2.8s ease-in-out infinite;
+
+  /* =========================
+     ROOF
+  ========================= */
+
+  @keyframes mekano-roof {
+    0% {
+      opacity: 0;
+      transform: translateY(-35px) rotate(-5deg);
+    }
+
+    18% {
+      opacity: 1;
+    }
+
+    38%,
+    78% {
+      opacity: 1;
+      transform: translateY(0) rotate(0);
+    }
+
+    90% {
+      opacity: 0;
+      transform: translateY(-35px) rotate(-5deg);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     CHIMNEY
+  ========================= */
+
+  @keyframes mekano-chimney {
+    0%,
+    12% {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    38%,
+    78% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    90% {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     BOTTOM
+  ========================= */
+
+  @keyframes mekano-bottom {
+    0% {
+      opacity: 0;
+      transform: translateY(45px) scale(0.92);
+    }
+
+    15% {
+      opacity: 0;
+    }
+
+    30% {
+      opacity: 1;
+    }
+
+    40%,
+    78% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    90% {
+      opacity: 0;
+      transform: translateY(45px) scale(0.92);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     LEFT PIECE
+  ========================= */
+
+  @keyframes mekano-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    25% {
+      opacity: 0;
+    }
+
+    38% {
+      opacity: 1;
+    }
+
+    42%,
+    78% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    90% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     PIN
+  ========================= */
+
+  @keyframes mekano-pin {
+    0% {
+      opacity: 0;
+      transform: translateY(25px) scale(0.45) rotate(-12deg);
+    }
+
+    25% {
+      opacity: 0;
+    }
+
+    42% {
+      opacity: 1;
+      transform: translateY(-3px) scale(1.06) rotate(2deg);
+    }
+
+    50% {
+      transform: translateY(0) scale(1) rotate(0);
+    }
+
+    78% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(0);
+    }
+
+    90% {
+      opacity: 0;
+      transform: translateY(25px) scale(0.45) rotate(-12deg);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     KEYHOLE
+  ========================= */
+
+  @keyframes mekano-key {
+    0%,
+    38% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    46% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    52%,
+    78% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    90% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* =========================
+     GLOW
+  ========================= */
+
+  @keyframes mekano-glow {
+    0%,
+    20% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+
+    45% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+
+    55% {
+      opacity: 0.5;
+      transform: scale(1.15);
+    }
+
+    75% {
+      opacity: 0.2;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+  @keyframes slide-up {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes slide-down {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.2s ease-out forwards;
+}
+/* ۱. تنظیمات پایه ظرف تقویم */
+.clean-modern-calendar.rmdp-wrapper,
+.clean-modern-calendar .rmdp-top-class,
+.clean-modern-calendar .rmdp-calendar {
+  width: 100% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.clean-modern-calendar .rmdp-day-picker {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.clean-modern-calendar .rmdp-day-picker > div {
+  width: 100% !important;
+}
+
+/* ۲. هدر ماه و فلش‌های راست و چپ */
+.clean-modern-calendar .rmdp-header {
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.clean-modern-calendar .rmdp-header-values {
+  font-family: "PeydaBold", sans-serif;
+  font-size: 15px;
+  color: inherit;
+}
+
+.clean-modern-calendar .rmdp-arrow-container {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(148, 163, 184, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.clean-modern-calendar .rmdp-arrow-container:hover {
+  background: rgba(148, 163, 184, 0.15);
+  box-shadow: none;
+}
+
+.clean-modern-calendar .rmdp-arrow {
+  border-color: currentColor;
+  margin: 0;
+}
+
+/* ۳. نام روزهای هفته (ش، ی، د...) */
+.clean-modern-calendar .rmdp-week {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+.clean-modern-calendar .rmdp-week-day {
+  width: 100% !important;
+  height: 28px !important;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ۴. ساختار هر خانه از تقویم (رفع کامل مشکل دو کادر شدن و غیب شدن عدد) */
+.clean-modern-calendar .rmdp-day {
+  width: 100% !important;
+  height: 44px !important; /* ارتفاع در حالت بدون قیمت */
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+/* وقتی در صفحه اقامتگاه هستیم و قیمت داریم، ارتفاع خانه بیشتر می‌شود */
+.clean-modern-calendar.with-price .rmdp-day {
+  height: 54px !important;
+}
+
+/* خنثی کردن span.sd پیش‌فرض کتابخانه تا کادر اضافه نسازد */
+.clean-modern-calendar .rmdp-day span.sd {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  color: inherit !important;
+}
+
+/* ۵. طراحی کارت داخلی هر روز (تنها کادری که دیده می‌شود) */
+.clean-modern-calendar .day-content-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(148, 163, 184, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  position: relative;
+  transition: all 0.15s ease;
+  padding: 3px 2px;
+  box-sizing: border-box;
+}
+
+.clean-modern-calendar
+  .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden):hover
+  .day-content-box {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(59, 130, 246, 0.06);
+  transform: translateY(-1px);
+}
+
+/* ۶. استایل عدد روز و تگ قیمت (کاملاً جدا از هم) */
+.clean-modern-calendar .day-num {
+  font-family: "PeydaBold", sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  display: block;
+}
+
+.clean-modern-calendar .day-price-tag {
+  font-family: "SansRegular", sans-serif;
+  font-size: 9.5px;
+  line-height: 1;
+  opacity: 0.75;
+  background: rgba(148, 163, 184, 0.12);
+  padding: 2px 4px;
+  border-radius: 5px;
+  white-space: nowrap;
+  max-width: 92%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* ۷. نقطه وضعیت تعطیلی و رنگ روزهای تعطیل */
+.clean-modern-calendar .holiday-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.clean-modern-calendar .dot-red {
+  background-color: #f43f5e;
+}
+
+.clean-modern-calendar .dot-orange {
+  background-color: #f59e0b;
+}
+
+.clean-modern-calendar .is-weekend-cell:not(.rmdp-range) .day-num {
+  color: #f59e0b;
+}
+
+.clean-modern-calendar .is-holiday-cell:not(.rmdp-range) .day-content-box {
+  background: rgba(244, 63, 94, 0.06);
+  border-color: rgba(244, 63, 94, 0.2);
+}
+
+.clean-modern-calendar .is-holiday-cell:not(.rmdp-range) .day-num,
+.clean-modern-calendar .is-holiday-cell:not(.rmdp-range) .day-price-tag {
+  color: #f43f5e;
+}
+
+/* ۸. استایل انتخاب بازه (Range) - دقیقاً هماهنگ با عکس دوم شما */
+.clean-modern-calendar .rmdp-range,
+.clean-modern-calendar .rmdp-range-hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+/* روزهای بین ورود و خروج */
+.clean-modern-calendar .rmdp-range:not(.start):not(.end) .day-content-box,
+.clean-modern-calendar
+  .rmdp-range-hover:not(.start):not(.end)
+  .day-content-box {
+  background: rgba(59, 130, 246, 0.14) !important;
+  border-color: rgba(59, 130, 246, 0.35) !important;
+  color: #3b82f6 !important;
+}
+
+/* روز اول (ورود) و روز آخر (خروج) */
+.clean-modern-calendar .rmdp-range.start .day-content-box,
+.clean-modern-calendar .rmdp-range.end .day-content-box {
+  background: #2563eb !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+}
+
+.clean-modern-calendar .rmdp-range.start .day-num,
+.clean-modern-calendar .rmdp-range.end .day-num {
+  color: #ffffff !important;
+}
+
+.clean-modern-calendar .rmdp-range.start .day-price-tag,
+.clean-modern-calendar .rmdp-range.end .day-price-tag {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+/* ۹. روزهای گذشته (غیرفعال) */
+.clean-modern-calendar .rmdp-disabled .day-content-box {
+  opacity: 0.35;
+  border-color: transparent !important;
+  background: transparent !important;
+  cursor: not-allowed;
+}
+
+.clean-modern-calendar .rmdp-disabled .day-price-tag,
+.clean-modern-calendar .rmdp-disabled .holiday-dot {
+  display: none !important;
+}
+
+/* مخفی کردن روزهای ماه قبل/بعد */
+.clean-modern-calendar .rmdp-day-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
